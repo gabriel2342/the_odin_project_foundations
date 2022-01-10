@@ -7,17 +7,17 @@ class TicTacToe
   
   def display_board
     puts""
-    puts "     |     |"
-    puts "  #{@sq[0]}  |  #{@sq[1]}  |  #{@sq[2]}"
-    puts "     |     |"
-    puts "-----+-----+-----"
-    puts "     |     |"
-    puts "  #{@sq[3]}  |  #{@sq[4]}  |  #{@sq[5]}"
-    puts "     |     |"
-    puts "-----+-----+-----"
-    puts "     |     |"
-    puts "  #{@sq[6]}  |  #{@sq[7]}  |  #{@sq[8]}"
-    puts "     |     |"
+    puts "       |     |"
+    puts "    #{@sq[0]}  |  #{@sq[1]}  |  #{@sq[2]}"
+    puts "       |     |"
+    puts "  -----+-----+-----"
+    puts "       |     |"
+    puts "    #{@sq[3]}  |  #{@sq[4]}  |  #{@sq[5]}"
+    puts "       |     |"
+    puts "  -----+-----+-----"
+    puts "       |     |"
+    puts "    #{@sq[6]}  |  #{@sq[7]}  |  #{@sq[8]}"
+    puts "       |     |"
   end
 
   def player_move(move)
@@ -70,24 +70,33 @@ class TicTacToe
 
 end
 
-board = TicTacToe.new
-board.initializer
-puts board.display_board
-loop do 
-  loop do
-    puts "Enter your move: "
-    move = gets.chomp.to_i
-    movebool = board.player_move(move)
-    break if movebool != false
-  end
-  break if board.winner?
-  break if board.is_tie?
-  board.computer_move
-  break if board.winner? 
+
+puts "Welcome to Tic-Tac-Toe!"
+loop do
+  puts "!!!!!!Let's Play!!!!!!!" 
+  board = TicTacToe.new
+  board.initializer
   puts board.display_board
-   
-  
-  
+  loop do 
+    loop do
+      puts "Enter your move: "
+      move = gets.chomp.to_i
+      movebool = board.player_move(move)
+      break if movebool != false
+    end
+    break if board.winner?
+    break if board.is_tie?
+    board.computer_move
+    break if board.winner? 
+    puts board.display_board
+  end
+  puts "Would you like to play another game?"
+  game = gets.chomp
+  if game.downcase != 'y'
+    puts "Goodbye! Thanks for Playing."
+    exit
+  end
 end
+
 
 
