@@ -2,7 +2,7 @@
 
 class TicTacToe
   def initializer
-    @sq = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+    @sq = Array.new(9, " ")
   end
   
   def display_board
@@ -61,7 +61,7 @@ class TicTacToe
   def is_tie?
     if @sq.any?(" ") == false
       puts display_board
-      puts "It's a tie!!! Of course it is, it's Tic-Tac-Toe!"
+      puts "It's a tie!!! Of course it is. It's Tic-Tac-Toe!"
       return true
     end
     false
