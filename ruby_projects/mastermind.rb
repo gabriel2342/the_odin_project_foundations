@@ -12,14 +12,14 @@ class MasterMind
   end
 
   def player_choice
-    puts "Would you like to be the codemaker or codebreaker?\nType in 'maker' or 'breaker'"
+    puts "Would you like to be the codebreaker or codemaker? Type in 'breaker' or 'maker'"
     @play_choice = gets.chomp
     @play_choice.downcase == 'breaker' ? true : false
   end
 
   def number_of_rounds
     loop do 
-      puts "How many rounds would you like to play? Choose and even number between 8-12"
+      puts "How many rounds would you like to play? Choose an even number between 8-12"
       @rounds_number = gets.chomp.to_i
       round_arr = [8,10,12]
       break if round_arr.include?(@rounds_number)
@@ -36,6 +36,7 @@ class MasterMind
     puts "Please enter your guess in a 1234 format: "
     @player_guess = gets.chomp
     @player_mov = @player_guess.chars.map(&:to_i)
+    @player_mov
   end
 
   def winner?
@@ -45,17 +46,18 @@ class MasterMind
     end
   end
 
-  def hint
+  def hint #BUG - I'm getting two partial when I should be only getting one
     matches = []
     partial = []
-    p @comp_move
-    p @player_mov
-    pl_move = @player_mov.dup
-    pl_move.each_with_index do |num, i|
+    comp_mov = @comp_move.dup
+    @player_mov.each_with_index do |num, i|
       if num == @comp_move[i]
-        matches << num 
-      elsif @comp_move.include?(num)
-        partial << num unless matches.include?(num)
+        matches << num
+        p comp_mov
+      elsif comp_mov.include?(num)
+        partial << num 
+        comp_mov.delete(num)
+        p comp_mov
       end
     end
     puts "Matches: #{matches.size}"
@@ -68,16 +70,16 @@ end
 
 game = MasterMind.new
 
-if game.player_choice
-  game.secret_code
+#if game.player_choice
+  p game.secret_code
   game.number_of_rounds
   counter = game.round_int
   game.round_int.times do
     game.player_move
-    game.hint unless game.winner?
+    game.winner? ? break : game.hint
     counter -= 1
     puts "You have #{counter} guesses remaining"
-  end
+  #end
 end
   
 
