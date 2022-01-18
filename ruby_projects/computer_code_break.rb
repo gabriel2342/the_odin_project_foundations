@@ -7,51 +7,42 @@ module CompCodebreak
   end
 
   def first_move
-    @comp_move = 1122
+    @comp_move = [1,1,2,2]
   end
-    
+
+  def comp_choice
+    @comp_move = @comp_set.shift.to_s.chars.map(&:to_i)
+  end
+     
   def player_code_set
     @player_code = []
     puts "Please enter your super secret code in a 1234 format: "
-    @player_code = gets.chomp.to_i
-    @player_code@player_code.digits
-    if @player_guess.to_s.size == 4 && @player_guess.to_i == @player_guess
-      true
-    else
-      puts "Please follow directions. Enter your guess in a 1234 format."
-      false
-    end
+    play_code = gets.chomp.to_i
+    @player_code = play_code.to_s.chars.map(&:to_i)
+    p @player_code
   end
     
   def comp_hint
-    @num_hint = []
-    (0..3).each do |i|
-      if  @comp_move[i] == @player_move[i]
-        @num_hint << 'Y'
-      elsif @player_move.include?(@comp_move[i])
-        @num_hint << 'A'
-      end
-    end
-    @num_hint = @num_hint.sort.reverse
+    
+    p black = @player_code.zip(@comp_move).count{|i| i.inject(:eql?)}
+    p white = @comp_move.uniq.count{|i| @player_code.include?(i)}
+    p @hint_array = [black, white]
   end
 
-  def comp_code_cull #need to change this so hint array is generated for each number    
+  def comp_code_cull  
+    comp_guess = []   
     @comp_set.each do |num|
-      if @num_hint == @hint_array
-        next
-      else
-        @comp_set.delete(num)
-      end
+      comp_guess = num.to_s.chars.map(&:to_i)
+      black = @player_code.zip(comp_guess).count{|i| i.inject(:eql?)}
+      white = comp_guess.uniq.count{|i| @player_code.include?(i)}
+      check_arr = [black,white]
+      @comp_set.delete(num) if check_arr != @hint_array
     end
-    p @comp_set
+    @comp_set
   end
 
-  def which_side?
-    puts "Would you like to be the codemaker or codebreaker? Please enter maker or breaker."
-    @choice = gets.chomp
+  def comp_winner?
+    p @comp_move == @player_code
   end
-
-  
-  
 end
 

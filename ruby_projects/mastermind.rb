@@ -1,7 +1,7 @@
-#require './computer_code_break.rb'
+require './computer_code_break.rb'
 
 class MasterMind
-  #include CompCodebreak
+  include CompCodebreak
 
   def secret_code 
      @comp_move = []
@@ -70,7 +70,7 @@ end
 
 game = MasterMind.new
 
-#if game.player_choice
+if game.player_choice
   p game.secret_code
   game.number_of_rounds
   counter = game.round_int
@@ -79,7 +79,17 @@ game = MasterMind.new
     game.winner? ? break : game.hint
     counter -= 1
     puts "You have #{counter} guesses remaining"
-  #end
+  end
+else 
+  game.player_code_set
+  game.first_move
+  
+  12.times do
+    game.comp_hint 
+    game.comp_code_cull
+    puts "The computers choice is #{game.comp_choice}"
+    break if game.comp_winner?  
+  end
 end
   
 
