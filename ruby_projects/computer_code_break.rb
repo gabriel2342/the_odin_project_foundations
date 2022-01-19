@@ -1,9 +1,9 @@
 
 module CompCodebreak
-  def initialize
-    @total_codes = []
-    (1111..6666).each {|num| @total_codes << num}
-    @comp_set = @total_codes.dup.uniq
+  def total_codes
+    @total_code = []
+    (1111..6666).each {|num| @total_code << num if num.to_s.match(/^[1-6]{4}$/)}
+    @comp_set = @total_code.dup.uniq
   end
 
   def first_move
@@ -11,6 +11,7 @@ module CompCodebreak
   end
 
   def comp_choice
+    p @comp_set
     @comp_move = @comp_set.shift.to_s.chars.map(&:to_i)
   end
      
@@ -24,9 +25,9 @@ module CompCodebreak
     
   def comp_hint
     
-    p black = @player_code.zip(@comp_move).count{|i| i.inject(:eql?)}
-    p white = @comp_move.uniq.count{|i| @player_code.include?(i)}
-    p @hint_array = [black, white]
+    black = @player_code.zip(@comp_move).count{|i| i.inject(:eql?)}
+    white = @comp_move.uniq.count{|i| @player_code.include?(i)}
+    @hint_array = [black, white]
   end
 
   def comp_code_cull  
@@ -36,13 +37,13 @@ module CompCodebreak
       black = @player_code.zip(comp_guess).count{|i| i.inject(:eql?)}
       white = comp_guess.uniq.count{|i| @player_code.include?(i)}
       check_arr = [black,white]
-      @comp_set.delete(num) if check_arr != @hint_array
+      check_arr == @hint_array ? next : @comp_set-= [num]
     end
     @comp_set
   end
 
   def comp_winner?
-    p @comp_move == @player_code
+    @comp_move == @player_code
   end
 end
 

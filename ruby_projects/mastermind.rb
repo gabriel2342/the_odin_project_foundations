@@ -81,13 +81,14 @@ if game.player_choice
     puts "You have #{counter} guesses remaining"
   end
 else 
+  game.total_codes
   game.player_code_set
   game.first_move
-  
-  12.times do
+  20.times do
     game.comp_hint 
     game.comp_code_cull
-    puts "The computers choice is #{game.comp_choice}"
+    choice = game.comp_choice
+    puts "The computers choice is #{choice}"
     break if game.comp_winner?  
   end
 end
